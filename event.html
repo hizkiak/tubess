@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Event & Jadwal - WeBandoo+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --color-primary: #4A8645;
+            --color-primary-dark: #3a6b37;
+            --color-secondary: #ec5f00;
+            --color-bg: #f8f9fa;
+            --color-white: #ffffff;
+            --color-text-dark: #2c3e50;
+            --color-text-grey: #64748b;
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--color-bg);
+            color: var(--color-text-dark);
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* -------------------------------------- */
+        /* 2. NAVBAR (SOLID) */
+        /* -------------------------------------- */
+        .navbar {
+            width: 100%;
+            background-color: var(--color-text-dark);
+            color: var(--color-white);
+            padding: 15px 30px;
+            /* Sedikit lebih ramping */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--color-primary);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .nav-link i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-white);
+        }
+
+        .nav-link.active {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            box-shadow: 0 4px 15px rgba(74, 134, 69, 0.4);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--color-primary);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-icon {
+            color: #cbd5e1;
+            padding: 10px;
+            border-radius: 50%;
+            transition: 0.3s;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-white);
+        }
+
+        .btn-logout:hover {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        /* -------------------------------------- */
+        /* 3. HEADER & CONTENT */
+        /* -------------------------------------- */
+        .main-content {
+            flex-grow: 1;
+            margin-top: 80px;
+            padding: 40px;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-bar::after {
+            content: '\f073';
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            right: -20px;
+            bottom: -40px;
+            font-size: 180px;
+            opacity: 0.05;
+            color: var(--color-primary);
+            transform: rotate(-10deg);
+        }
+
+        .header-bar h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--color-text-dark);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .user-profile {
+            font-size: 16px;
+            color: var(--color-text-grey);
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            margin: 0 0 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--color-primary);
+            background: #dcfce7;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        /* -------------------------------------- */
+        /* 4. EVENT CARDS */
+        /* -------------------------------------- */
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .event-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: row;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .event-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .event-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .event-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(74, 134, 69, 0.3);
+        }
+
+        .date-badge {
+            width: 90px;
+            background: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: background 0.3s;
+        }
+
+        /* Warna Badge Dinamis */
+        .event-card[data-type="Festival"] .date-badge {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .event-card[data-type="Workshop"] .date-badge {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .event-card[data-type="Seni Musik"] .date-badge {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .event-card[data-type="Seni Tari"] .date-badge {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        .date-badge .day {
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .date-badge .month {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .card-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-text-dark);
+            line-height: 1.4;
+        }
+
+        .card-content p {
+            font-size: 13px;
+            color: var(--color-text-grey);
+            line-height: 1.5;
+            margin-bottom: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .schedule-table-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            padding: 25px;
+            overflow-x: auto;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards 0.4s;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            min-width: 700px;
+        }
+
+        .schedule-table th {
+            color: var(--color-text-grey);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            padding: 0 20px 10px 20px;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        .schedule-table tbody tr {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+            animation: fadeInRow 0.5s ease forwards;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .schedule-table tbody tr:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Indikator Hover Garis Kiri */
+        .schedule-table tbody tr::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 4px;
+            background: transparent;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        .schedule-table tbody tr:hover::before {
+            background: var(--color-primary);
+        }
+
+        .schedule-table td {
+            padding: 18px 20px;
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            border-style: solid none;
+            font-size: 14px;
+            color: var(--color-text-dark);
+        }
+
+        .schedule-table td:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-left: 1px solid #f1f5f9;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .schedule-table td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-right: 1px solid #f1f5f9;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .tag[data-tag="Seni Tari"] {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .tag[data-tag="Seni Musik"] {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .tag[data-tag="Sejarah"] {
+            background: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .tag[data-tag="Workshop"] {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        .tag[data-tag="Festival"] {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        /* -------------------------------------- */
+        /* 6. CTA & FOOTER */
+        /* -------------------------------------- */
+        .cta-banner {
+            margin-top: 60px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #2e5c2b 100%);
+            border-radius: var(--radius-lg);
+            padding: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 20px 40px rgba(74, 134, 69, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards 0.5s;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            left: -50px;
+            top: -50px;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .cta-content h3 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .cta-content p {
+            opacity: 0.9;
+            font-size: 15px;
+            max-width: 500px;
+        }
+
+        .btn-cta {
+            background: white;
+            color: var(--color-primary);
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: #f0fff4;
+        }
+
+        footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-white);
+            padding: 60px 40px 20px;
+            margin-top: 80px;
+            border-radius: 40px 40px 0 0;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h3 {
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            font-weight: 800;
+            font-size: 24px;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-col a:hover {
+            color: var(--color-primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #334155;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--color-primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 25px;
+            border-top: 1px solid #334155;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* -------------------------------------- */
+        /* 7. MODALS & TOAST */
+        /* -------------------------------------- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 40px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .detail-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .detail-header h2 {
+            font-size: 26px;
+            color: var(--color-text-dark);
+            margin-bottom: 8px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .detail-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #e2e8f0;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-text-grey);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .detail-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--color-text-dark);
+            font-size: 15px;
+        }
+
+        .info-row i {
+            width: 35px;
+            height: 35px;
+            background: #f0fdf4;
+            color: var(--color-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .detail-desc {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--color-text-grey);
+            border-left: 4px solid var(--color-primary);
+            margin-bottom: 30px;
+        }
+
+        /* Form Styling */
+        .event-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .event-form label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .event-form input,
+        .event-form textarea,
+        .event-form select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .event-form input:focus,
+        .event-form textarea:focus,
+        .event-form select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px rgba(74, 134, 69, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            flex: 2;
+            background: var(--color-primary);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .btn-close {
+            flex: 1;
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .btn-submit:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 134, 69, 0.2);
+        }
+
+        .btn-close:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        #toast {
+            visibility: hidden;
+            min-width: 300px;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 16px 20px;
+            position: fixed;
+            z-index: 3000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        #toast i {
+            color: #4ade80;
+            font-size: 20px;
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRow {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                margin-top: 15px;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .nav-links li {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+
+            .navbar-right {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .main-content {
+                margin-top: 220px;
+                padding: 20px;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-bar {
+                text-align: center;
+                flex-direction: column;
+                padding: 30px 20px;
+            }
+
+            .cta-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 25px;
+                padding: 30px;
+            }
+
+            .btn-cta {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-content {
+                padding: 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="toast"><i class="fas fa-check-circle"></i></div>
+
+    <div id="eventOverlay" class="overlay">
+        <div class="modal-content">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:15px;">
+                <h3 style="margin:0; color:var(--color-primary); font-size:22px; font-weight:700;">Ajukan Event Budaya
+                </h3>
+                <i class="fas fa-calendar-plus" style="font-size:24px; color:#cbd5e1;"></i>
+            </div>
+
+            <form class="event-form" id="eventForm">
+                <div class="form-group">
+                    <label>Nama Event</label>
+                    <input type="text" id="eventName" placeholder="Contoh: Festival Angklung Nusantara" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Waktu</label>
+                        <input type="time" id="eventTime" required>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Jenis</label>
+                        <select id="eventType" required>
+                            <option value="Seni Tari">Seni Tari</option>
+                            <option value="Seni Musik">Seni Musik</option>
+                            <option value="Sejarah">Sejarah</option>
+                            <option value="Festival">Festival</option>
+                            <option value="Workshop">Workshop</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lokasi</label>
+                        <input type="text" id="eventLocation" placeholder="Contoh: Balai Kota" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Singkat</label>
+                    <textarea rows="3" id="eventDesc" placeholder="Jelaskan konsep acara secara singkat..."
+                        required></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn-submit">Kirim Pengajuan</button>
+                    <button type="button" id="closeModalBtn" class="btn-close">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="detailOverlay" class="overlay">
+        <div class="modal-content">
+            <div class="detail-header">
+                <span class="detail-badge" id="dType">Festival</span>
+                <h2 id="dTitle">Judul Event</h2>
+            </div>
+
+            <div class="detail-info">
+                <div class="info-row">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <small
+                            style="display:block; color:#94a3b8; font-size:11px; font-weight:600; text-transform:uppercase;">Tanggal</small>
+                        <span id="dDate" style="font-weight:600;">18 April 2026</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <small
+                            style="display:block; color:#94a3b8; font-size:11px; font-weight:600; text-transform:uppercase;">Waktu</small>
+                        <span id="dTime" style="font-weight:600;">09:00 WIB</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <small
+                            style="display:block; color:#94a3b8; font-size:11px; font-weight:600; text-transform:uppercase;">Lokasi</small>
+                        <span id="dLoc" style="font-weight:600;">Jl. Asia Afrika</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-desc">
+                <p id="dDesc" style="margin:0;">Deskripsi event akan muncul di sini.</p>
+            </div>
+
+            <div class="button-group">
+                <button type="button" id="btnRegisterEvent" class="btn-submit"
+                    style="background-color: var(--color-primary); box-shadow: 0 4px 15px rgba(74, 134, 69, 0.3);">
+                    Daftar Sekarang <i class="fas fa-arrow-right" style="margin-left:5px;"></i>
+                </button>
+                <button type="button" id="closeDetailBtn" class="btn-close">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <a href="home page.html" class="logo">WeBandoo+</a>
+        <ul class="nav-links">
+            <li><a href="home page.html" class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="warisan.html" class="nav-link"><i class="fas fa-landmark"></i> Warisan</a></li>
+            <li><a href="peta.html" class="nav-link"><i class="fas fa-map-pin"></i> Peta</a></li>
+            <li><a href="event.html" class="nav-link active"><i class="fas fa-calendar-day"></i> Event</a></li>
+            <li><a href="eduction.html" class="nav-link"><i class="fas fa-book"></i> Belajar</a></li>
+        </ul>
+        <div class="navbar-right">
+            <a href="pengaturan.html" class="btn-icon"><i class="fas fa-cog"></i></a>
+            <div class="avatar">
+                <a href="profil.html"><img src="Raihan.jpg" alt="Avatar"></a>
+            </div>
+            <a href="keluar.html" class="btn-icon btn-logout" style="color:#e74c3c"><i
+                    class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="header-bar">
+            <div>
+                <h1>📅 Agenda Budaya Bandung</h1>
+                <p class="user-profile">Jangan lewatkan momen seru melestarikan sejarah!</p>
+            </div>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-fire-alt"></i> Event Sorotan</h2>
+
+        <div class="event-grid" id="eventGrid">
+
+            <div class="event-card" data-type="Festival" data-title="Asia Africa Festival 2026"
+                data-desc="Parade budaya internasional yang meriah, memperingati Konferensi Asia Afrika di sepanjang Jalan Asia Afrika dengan peserta dari berbagai negara sahabat."
+                data-date="18 - 20 April 2026" data-time="08:00 - Selesai" data-loc="Jalan Asia Afrika">
+                <div class="date-badge">
+                    <span class="day">18</span>
+                    <span class="month">Apr</span>
+                </div>
+                <div class="card-content">
+                    <h3>Asia Africa Festival</h3>
+                    <p>Parade budaya internasional memperingati KAA.</p>
+                </div>
+            </div>
+
+            <div class="event-card" data-type="Workshop" data-title="Workshop Batik Priangan"
+                data-desc="Belajar teknik membatik tulis khas Sunda bersama pengrajin lokal. Alat dan bahan sudah disediakan. Bawa pulang hasil karyamu!"
+                data-date="5 Maret 2026" data-time="10:00 - 14:00" data-loc="Batik Komar House">
+                <div class="date-badge">
+                    <span class="day">05</span>
+                    <span class="month">Mar</span>
+                </div>
+                <div class="card-content">
+                    <h3>Workshop Batik Priangan</h3>
+                    <p>Belajar teknik membatik tulis khas Sunda.</p>
+                </div>
+            </div>
+
+            <div class="event-card" data-type="Seni Musik" data-title="Wayang Golek Malam"
+                data-desc="Pagelaran rutin wayang golek semalam suntuk yang dibawakan oleh Ki Dalang lokal ternama. Menampilkan kisah Mahabarata."
+                data-date="Setiap Sabtu" data-time="20:00 - Selesai" data-loc="Padepokan Seni Bandung">
+                <div class="date-badge">
+                    <span class="day">Rut</span>
+                    <span class="month">in</span>
+                </div>
+                <div class="card-content">
+                    <h3>Wayang Golek Malam</h3>
+                    <p>Pagelaran rutin setiap malam minggu.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-list-alt"></i> Jadwal Mingguan</h2>
+
+        <div class="schedule-table-container">
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Waktu</th>
+                        <th>Aktivitas</th>
+                        <th>Kategori</th>
+                        <th>Lokasi</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    <tr class="schedule-item" data-title="Diskusi Sejarah Bandung Lautan Api"
+                        data-desc="Diskusi terbuka membahas peristiwa heroik Bandung Lautan Api bersama sejarawan lokal."
+                        data-date="Senin" data-time="14.00" data-loc="Museum Konferensi Asia Afrika"
+                        data-type="Sejarah">
+                        <td>Senin, 14.00</td>
+                        <td>Diskusi Sejarah Bandung Lautan Api</td>
+                        <td><span class="tag" data-tag="Sejarah">Sejarah</span></td>
+                        <td>Museum KAA</td>
+                    </tr>
+                    <tr class="schedule-item" data-title="Latihan Tari Jaipongan Dasar"
+                        data-desc="Kelas terbuka latihan dasar tari Jaipong untuk pemula. Wajib membawa selendang."
+                        data-date="Rabu" data-time="16.00" data-loc="Taman Budaya Jawa Barat" data-type="Seni Tari">
+                        <td>Rabu, 16.00</td>
+                        <td>Latihan Tari Jaipongan Dasar</td>
+                        <td><span class="tag" data-tag="Seni Tari">Seni Tari</span></td>
+                        <td>Taman Budaya</td>
+                    </tr>
+                    <tr class="schedule-item" data-title="Pertunjukan Musik Degung Klasik"
+                        data-desc="Menikmati alunan musik Degung klasik yang menenangkan jiwa di malam hari."
+                        data-date="Jumat" data-time="19.30" data-loc="Balai Pertemuan Kota" data-type="Seni Musik">
+                        <td>Jumat, 19.30</td>
+                        <td>Pertunjukan Musik Degung Klasik</td>
+                        <td><span class="tag" data-tag="Seni Musik">Seni Musik</span></td>
+                        <td>Balai Kota</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="cta-banner">
+            <div class="cta-content">
+                <h3>Punya Event Budaya Keren?</h3>
+                <p>Daftarkan acaramu agar lebih banyak warga Bandung yang tahu!</p>
+            </div>
+            <a href="#" id="openModalBtn" class="btn-cta">
+                <i class="fas fa-plus-circle"></i> Ajukan Event
+            </a>
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>WeBandoo+</h3>
+                    <p>Platform digital pelestarian sejarah Kota Bandung. Menghubungkan generasi muda dengan akar budaya
+                        Pasundan.</p>
+                    <div class="social-links" style="margin-top:20px;">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="home page.html">Dashboard</a></li>
+                        <li><a href="warisan.html">Warisan</a></li>
+                        <li><a href="peta.html">Peta Lokasi</a></li>
+                        <li><a href="event.html">Event</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Hubungi Kami</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt" style="color:#4ade80; margin-right:5px"></i> Jl.
+                            Telekomunikasi No.1</li>
+                        <li><i class="fas fa-phone" style="color:#4ade80; margin-right:5px"></i> (022) 123-4567</li>
+                        <li><i class="fas fa-envelope" style="color:#4ade80; margin-right:5px"></i> info@webandoo.id
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 WeBandoo+ Warisan Bandung. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // DOM Elements
+        const openButton = document.getElementById('openModalBtn');
+        const closeButton = document.getElementById('closeModalBtn');
+        const overlay = document.getElementById('eventOverlay');
+
+        const detailOverlay = document.getElementById('detailOverlay');
+        const closeDetailBtn = document.getElementById('closeDetailBtn');
+        const btnRegisterEvent = document.getElementById('btnRegisterEvent');
+
+        const eventForm = document.getElementById('eventForm');
+        const scheduleBody = document.getElementById('scheduleBody');
+        const eventGrid = document.getElementById('eventGrid');
+        const toast = document.getElementById('toast');
+
+        // --- 1. FORM & SCHEDULE LOGIC ---
+        openButton.addEventListener('click', (e) => { e.preventDefault(); overlay.classList.add('active'); });
+        closeButton.addEventListener('click', () => { overlay.classList.remove('active'); });
+
+        eventForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('eventName').value;
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value;
+            const type = document.getElementById('eventType').value;
+            const loc = document.getElementById('eventLocation').value;
+            const desc = document.getElementById('eventDesc').value;
+
+            // Helper for days
+            const dateObj = new Date(date);
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const dayName = days[dateObj.getDay()];
+
+            // 1. Add to Table (With clickable data attributes)
+            const newRow = document.createElement('tr');
+            newRow.className = 'schedule-item';
+            newRow.setAttribute('data-title', name);
+            newRow.setAttribute('data-desc', desc);
+            newRow.setAttribute('data-date', dayName); // Simpler for schedule
+            newRow.setAttribute('data-time', time);
+            newRow.setAttribute('data-loc', loc);
+            newRow.setAttribute('data-type', type);
+
+            newRow.innerHTML = `
+                <td>${dayName}, ${time}</td>
+                <td>${name}</td>
+                <td><span class="tag" data-tag="${type}">${type}</span></td>
+                <td>${loc}</td>
+            `;
+
+            // Add click listener to new row immediately
+            newRow.addEventListener('click', function () {
+                openDetailModal(this);
+            });
+
+            scheduleBody.insertBefore(newRow, scheduleBody.firstChild);
+
+            // 2. Add to Event Grid (if applicable)
+            if (type === 'Festival' || type === 'Workshop' || type === 'Seni Musik') {
+                const dayNum = dateObj.getDate();
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+                const monthShort = months[dateObj.getMonth()];
+
+                const newCard = document.createElement('div');
+                newCard.className = 'event-card';
+                newCard.setAttribute('data-type', type);
+                newCard.setAttribute('data-title', name);
+                newCard.setAttribute('data-desc', desc);
+                newCard.setAttribute('data-date', `${dayNum} ${monthShort} 2026`);
+                newCard.setAttribute('data-time', time);
+                newCard.setAttribute('data-loc', loc);
+
+                newCard.innerHTML = `
+                    <div class="date-badge">
+                        <span class="day">${dayNum}</span>
+                        <span class="month">${monthShort}</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>${name}</h3>
+                        <p>${desc.substring(0, 50)}...</p>
+                    </div>
+                `;
+                newCard.addEventListener('click', function () { openDetailModal(this); });
+                eventGrid.insertBefore(newCard, eventGrid.firstChild);
+            }
+
+            eventForm.reset();
+            overlay.classList.remove('active');
+            showToast("Event berhasil diajukan! Menunggu verifikasi.");
+        });
+
+        function showToast(message) {
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // --- 2. DETAIL MODAL LOGIC (Universal for Cards & Table Rows) ---
+        function openDetailModal(element) {
+            const title = element.getAttribute('data-title');
+            const desc = element.getAttribute('data-desc');
+            const date = element.getAttribute('data-date');
+            const time = element.getAttribute('data-time');
+            const loc = element.getAttribute('data-loc');
+            const type = element.getAttribute('data-type');
+
+            document.getElementById('dTitle').innerText = title;
+            document.getElementById('dDesc').innerText = desc;
+            document.getElementById('dDate').innerText = date;
+            document.getElementById('dTime').innerText = time;
+            document.getElementById('dLoc').innerText = loc;
+            document.getElementById('dType').innerText = type;
+
+            detailOverlay.classList.add('active');
+        }
+
+        // --- 3. REDIRECT LOGIC ---
+        btnRegisterEvent.addEventListener('click', function () {
+            const eventTitle = document.getElementById('dTitle').innerText;
+            const eventParam = encodeURIComponent(eventTitle);
+            window.location.href = `daftar-event.html?event=${eventParam}`;
+        });
+
+        // Initialize Listeners for Static Content
+        // 1. Cards
+        document.querySelectorAll('.event-card').forEach(card => {
+            card.addEventListener('click', function () { openDetailModal(this); });
+        });
+        // 2. Schedule Rows (NEW!)
+        document.querySelectorAll('.schedule-item').forEach(row => {
+            row.addEventListener('click', function () { openDetailModal(this); });
+        });
+
+        closeDetailBtn.addEventListener('click', () => { detailOverlay.classList.remove('active'); });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === detailOverlay) detailOverlay.classList.remove('active');
+            if (e.target === overlay) overlay.classList.remove('active');
+        });
+
+    </script>
+
+</body>
+
+</html>

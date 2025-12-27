@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Warisan & Cagar Budaya - WeBandoo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* -------------------------------------- */
+        /* 1. GLOBAL & UTILITIES */
+        /* -------------------------------------- */
+        :root {
+            --color-primary-green: #4A8645;
+            --color-white: #ffffff;
+            --color-off-white: #f8f9fa;
+            --color-text-dark: #2c3e50;
+            --color-text-grey: #7f8c8d;
+            --shadow-elevation: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 40px rgba(74, 134, 69, 0.2);
+            --color-red-danger: #e74c3c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; scroll-behavior: smooth; }
+
+        body {
+            min-height: 100vh; background-color: var(--color-off-white); color: var(--color-text-dark);
+            display: flex; flex-direction: column;
+            background-image: radial-gradient(#e1e8e3 1px, transparent 1px); background-size: 20px 20px;
+        }
+
+        /* -------------------------------------- */
+        /* 2. NAVBAR (SOLID) */
+        /* -------------------------------------- */
+        .navbar {
+            width: 100%; background-color: var(--color-text-dark); color: var(--color-white);
+            padding: 20px 30px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; z-index: 100; transition: all 0.3s ease;
+        }
+        .navbar .logo { font-size: 26px; font-weight: 700; color: var(--color-primary-green); text-decoration: none; }
+        .nav-links { display: flex; list-style: none; margin: 0; padding: 0; }
+        .nav-links li { margin-left: 20px; }
+        .nav-link {
+            display: flex; align-items: center; padding: 10px 15px; color: #bdc3c7;
+            text-decoration: none; border-radius: 8px; transition: background-color 0.3s, color 0.3s;
+            font-weight: 500; font-size: 14px;
+        }
+        .nav-link i { margin-right: 8px; font-size: 18px; }
+        .nav-link:hover { background-color: #34495e; color: var(--color-white); }
+        .nav-link.active { background-color: var(--color-primary-green); color: var(--color-white); box-shadow: 0 4px 10px rgba(74, 134, 69, 0.4); }
+        .navbar-right { display: flex; align-items: center; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; margin-left: 15px; border: 2px solid var(--color-primary-green); overflow: hidden; cursor: pointer; }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .toggle-btn-leave, .toggle-btn-set { color: var(--color-white); font-size: 15px; cursor: pointer; padding: 10px; border-radius: 8px; transition: background-color 0.3s; margin-left: 15px; text-decoration: none; background-color: var(--color-primary-green); box-shadow: 0 4px 10px rgba(74, 134, 69, 0.4); display: inline-flex; align-items: center; }
+        .toggle-btn-leave:hover, .toggle-btn-set:hover { background-color: #3a6b37; }
+
+        /* -------------------------------------- */
+        /* 3. CONTENT */
+        /* -------------------------------------- */
+        .main-content { flex-grow: 1; margin-top: 100px; padding: 40px; max-width: 1280px; margin-left: auto; margin-right: auto; width: 100%; }
+        
+        .header-bar {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%); padding: 30px;
+            border-radius: 20px; box-shadow: var(--shadow-elevation); border: 1px solid white; position: relative; overflow: hidden;
+        }
+        .header-bar::before { content: ''; position: absolute; right: -50px; top: -50px; width: 150px; height: 150px; background: rgba(74, 134, 69, 0.05); border-radius: 50%; }
+        .header-bar h1 { font-size: 32px; font-weight: 800; color: var(--color-text-dark); margin-bottom: 5px; }
+        .user-profile { display: flex; align-items: center; font-weight: 500; color: var(--color-text-grey); font-size: 16px; }
+        .section-title { font-size: 24px; font-weight: 700; color: var(--color-text-dark); margin: 50px 0 30px 0; display: flex; align-items: center; gap: 12px; }
+        .section-title i { color: var(--color-primary-green); }
+        .list-container { background: var(--color-white); padding: 30px; border-radius: 20px; box-shadow: var(--shadow-elevation); margin-bottom: 40px; border: 1px solid rgba(0,0,0,0.02); }
+
+        /* -------------------------------------- */
+        /* 4. HERITAGE CARDS */
+        /* -------------------------------------- */
+        .heritage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; margin-bottom: 40px; }
+        .heritage-card { background: var(--color-white); border-radius: 16px; box-shadow: var(--shadow-elevation); overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; opacity: 0; transform: translateY(30px); }
+        .heritage-card.visible { opacity: 1; transform: translateY(0); }
+        .heritage-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: var(--shadow-hover); }
+        .card-image { width: 100%; height: 220px; overflow: hidden; position: relative; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .heritage-card:hover .card-image img { transform: scale(1.1); }
+        .card-content { padding: 25px; }
+        .card-content h3 { font-size: 20px; margin-bottom: 10px; color: var(--color-primary-green); font-weight: 700; }
+        .card-content p { font-size: 14px; color: #64748b; margin-bottom: 20px; line-height: 1.6; }
+        .card-meta { display: flex; justify-content: space-between; font-size: 13px; color: var(--color-text-dark); border-top: 1px dashed #e2e8f0; padding-top: 15px; font-weight: 500; }
+        .card-meta .meta-item i { margin-right: 6px; color: var(--color-primary-green); }
+
+        /* -------------------------------------- */
+        /* 5. CULTURAL LIST (INTERACTIVE) */
+        /* -------------------------------------- */
+        .cultural-list { list-style: none; padding: 0; }
+        .cultural-list li {
+            padding: 18px; border-radius: 12px; margin-bottom: 15px; background: #fff; border: 1px solid #f0f0f0;
+            display: flex; align-items: flex-start; line-height: 1.6; font-size: 15px; transition: all 0.3s ease;
+            cursor: pointer; /* Menandakan bisa diklik */
+            position: relative;
+        }
+        .cultural-list li:hover { background-color: #f0fdf4; border-color: #dcfce7; transform: translateX(10px); box-shadow: 0 4px 12px rgba(74, 134, 69, 0.1); }
+        
+        /* Icon penanda klik di kanan */
+        .cultural-list li::after {
+            content: '\f054'; font-family: "Font Awesome 5 Free"; font-weight: 900;
+            position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+            color: #dcfce7; opacity: 0; transition: 0.3s;
+        }
+        .cultural-list li:hover::after { opacity: 1; color: var(--color-primary-green); right: 15px; }
+
+        .cultural-list li i {
+            color: var(--color-white); background: var(--color-primary-green); width: 40px; height: 40px;
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            margin-right: 20px; font-size: 16px; flex-shrink: 0; transition: transform 0.3s;
+        }
+        .cultural-list li:hover i { transform: rotate(15deg) scale(1.1); }
+        .cultural-list li div { flex: 1; padding-right: 20px; }
+        .cultural-list li span { font-weight: 700; color: var(--color-text-dark); display: block; margin-bottom: 4px; font-size: 16px; }
+
+        /* -------------------------------------- */
+        /* 6. MODAL STYLES */
+        /* -------------------------------------- */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0; transition: opacity 0.3s; }
+        .overlay.active { display: flex; opacity: 1; }
+        .modal-content { background-color: var(--color-white); padding: 40px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .overlay.active .modal-content { transform: scale(1); }
+        
+        /* Heritage Modal Specific */
+        .heritage-modal-icon {
+            width: 80px; height: 80px; background: #dcfce7; color: var(--color-primary-green);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 40px; margin: 0 auto 20px auto;
+        }
+        .heritage-modal-title { text-align: center; color: var(--color-text-dark); font-size: 24px; margin-bottom: 15px; font-weight: 700; }
+        .heritage-modal-desc { text-align: justify; line-height: 1.8; color: #64748b; font-size: 15px; }
+        .btn-close-modal { width: 100%; padding: 12px; margin-top: 25px; background: #e2e8f0; color: #475569; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-close-modal:hover { background: #cbd5e1; }
+
+        /* Contact Modal Specific */
+        .contact-list ul { list-style: none; padding: 0; }
+        .contact-list li { margin-bottom: 15px; color: var(--color-text-dark); display: flex; align-items: center; }
+        .contact-list i { color: var(--color-primary-green); width: 30px; font-size: 18px; }
+
+        /* Footer */
+        footer { background-color: #1e293b; color: #cbd5e1; padding: 60px 40px 20px; margin-top: 60px; border-radius: 40px 40px 0 0; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; max-width: 1200px; margin: 0 auto; }
+        .footer-col h3 { color: #4ade80; font-size: 24px; margin-bottom: 20px; font-weight: 800; }
+        .footer-col p { font-size: 14px; line-height: 1.6; margin-bottom: 20px; opacity: 0.8; }
+        .footer-col h4 { font-size: 18px; margin-bottom: 20px; position: relative; padding-bottom: 10px; color: #fff; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 50px; height: 3px; background-color: var(--color-primary-green); border-radius: 2px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #cbd5e1; text-decoration: none; transition: 0.3s; font-size: 14px; display: inline-block; }
+        .footer-col ul li a:hover { color: #4ade80; padding-left: 8px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-links a { width: 40px; height: 40px; background: #334155; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: white; text-decoration: none; transition: 0.3s; }
+        .social-links a:hover { background: var(--color-primary-green); transform: translateY(-5px); }
+        .footer-bottom { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #334155; font-size: 13px; }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; padding: 10px 15px; }
+            .nav-links { flex-direction: column; margin-top: 15px; gap: 10px; }
+            .nav-links li { margin-left: 0; }
+            .navbar-right { margin-top: 15px; width: 100%; justify-content: center; }
+            .main-content { margin-top: 160px; padding: 20px; }
+            .heritage-grid { grid-template-columns: 1fr; }
+            footer { padding: 40px 20px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="disbudparOverlay" class="overlay">
+        <div class="modal-content contact-list">
+            <h3 style="color: var(--color-primary-green); margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <i class="fas fa-headset"></i> Kontak Disbudpar
+            </h3>
+            <p style="margin-bottom:15px; color:#666;">Informasi layanan pelestarian & cagar budaya:</p>
+            <ul>
+                <li><i class="fas fa-phone-alt"></i> (022) 420 5411</li>
+                <li><i class="fas fa-envelope"></i> disbudpar@bandung.go.id</li>
+                <li><i class="fas fa-globe"></i> bandung.go.id/disbudpar</li>
+                <li><i class="fas fa-map-marker-alt"></i> Jl. Ahmad Yani No. 227</li>
+            </ul>
+            <button id="closeDisbudparModalBtn" class="btn-close-modal">Tutup</button>
+        </div>
+    </div>
+
+    <div id="heritageDetailOverlay" class="overlay">
+        <div class="modal-content">
+            <div id="hIconDisplay" class="heritage-modal-icon"></div>
+            <h2 id="hTitleDisplay" class="heritage-modal-title">Judul Warisan</h2>
+            <p id="hDescDisplay" class="heritage-modal-desc">Deskripsi lengkap akan muncul di sini.</p>
+            <button id="closeHeritageModalBtn" class="btn-close-modal">Tutup Detail</button>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <a href="home page.html" class="logo">WeBandoo+</a>
+        <ul class="nav-links">
+            <li><a href="home page.html" class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="warisan.html" class="nav-link active"><i class="fas fa-landmark"></i> Warisan & Cagar Budaya</a></li>
+            <li><a href="peta.html" class="nav-link"><i class="fas fa-map-pin"></i> Peta Lokasi</a></li>
+            <li><a href="event.html" class="nav-link"><i class="fas fa-calendar-day"></i> Event & Jadwal</a></li>
+            <li><a href="eduction.html" class="nav-link"><i class="fas fa-book"></i> Belajar</a></li>
+        </ul>
+        <div class="navbar-right">
+            <div class="avatar">
+                <a href="profil.html">
+                    <img src="Raihan.jpg" alt="Avatar">
+                </a>
+            </div>
+            <a href="pengaturan.html" class="toggle-btn-leave"><i class="fas fa-cog"></i></a>
+            <a href="keluar.html" class="toggle-btn-set" style="background-color: #e74c3c;"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="header-bar">
+            <div>
+                <h1>🏛️ Warisan & Cagar Budaya</h1>
+                <p class="user-profile">Menjelajahi Jejak Sejarah "Paris van Java"</p>
+            </div>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-archway"></i> Cagar Budaya Fisik Ikonik</h2>
+
+        <div class="heritage-grid">
+            <div class="heritage-card scroll-animate">
+                <div class="card-image">
+                    <img src="gedung.png" alt="Gedung Sate">
+                </div>
+                <div class="card-content">
+                    <h3>Gedung Sate</h3>
+                    <p>Ikon Kota Bandung dengan arsitektur Indische yang khas. Dikenal dengan ornamen tusuk sate di
+                        puncaknya. Dibangun tahun 1920.</p>
+                    <div class="card-meta">
+                        <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Jl. Diponegoro, Bandung</span>
+                        <span class="meta-item"><i class="fas fa-calendar-alt"></i> 1920 (Kolonial)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="heritage-card scroll-animate" style="transition-delay: 100ms;">
+                <div class="card-image">
+                    <img src="goa.png" alt="Situs Gua Pawon">
+                </div>
+                <div class="card-content">
+                    <h3>Situs Gua Pawon</h3>
+                    <p>Situs arkeologi penting di Bandung Barat, tempat ditemukan kerangka manusia purba (Homo sapiens)
+                        berusia ribuan tahun.</p>
+                    <div class="card-meta">
+                        <span class="meta-item"><i class="fas fa-map-marker-alt"></i> Padalarang</span>
+                        <span class="meta-item"><i class="fas fa-skull"></i> Prasejarah</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="heritage-card scroll-animate" style="transition-delay: 200ms;">
+                <div class="card-image">
+                    <img src="braga.png" alt="Jalan Braga">
+                </div>
+                <div class="card-content">
+                    <h3>Jalan Braga (Old Street)</h3>
+                    <p>Jantung Kota Bandung tempo dulu, dikelilingi bangunan-bangunan bergaya Art Deco dan Neo-Klasik
+                        yang terawat sejak masa kolonial.</p>
+                    <div class="card-meta">
+                        <span class="meta-item"><i class="fas fa-road"></i> Pusat Kota</span>
+                        <span class="meta-item"><i class="fas fa-building"></i> Abad ke-19</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-palette"></i> Warisan Budaya Tak Benda Sunda</h2>
+
+        <div class="list-container">
+            <ul class="cultural-list">
+                
+                <li class="cultural-item" 
+                    data-title="Kesenian Angklung" 
+                    data-icon="fa-music"
+                    data-desc="Angklung adalah alat musik multitonal (bernada ganda) yang berkembang dari masyarakat Sunda. Alat musik ini dibuat dari bambu, dibunyikan dengan cara digoyangkan. Angklung terdaftar sebagai Karya Agung Warisan Budaya Lisan dan Nonbendawi Manusia dari UNESCO sejak November 2010.">
+                    <i class="fas fa-music"></i> 
+                    <div>
+                        <span>Kesenian Angklung</span>
+                        Alat musik bambu khas Jawa Barat yang dimainkan secara orkestra, kini menjadi warisan dunia UNESCO.
+                    </div>
+                </li>
+
+                <li class="cultural-item" 
+                    data-title="Wayang Golek Sunda" 
+                    data-icon="fa-scroll"
+                    data-desc="Wayang Golek adalah seni pertunjukan boneka kayu yang populer di wilayah Tanah Pasundan. Berbeda dengan wayang kulit, wayang golek berbentuk tiga dimensi. Cerita yang dibawakan biasanya bersumber dari Ramayana dan Mahabarata, namun dengan sentuhan humor dan kritik sosial khas Sunda (bobodoran).">
+                    <i class="fas fa-scroll"></i>
+                    <div>
+                        <span>Wayang Golek Sunda</span>
+                        Seni pertunjukan boneka kayu yang menceritakan kisah epik, sering dibawakan oleh Dalang dengan bahasa Sunda.
+                    </div>
+                </li>
+
+                <li class="cultural-item" 
+                    data-title="Musik Degung" 
+                    data-icon="fa-microphone"
+                    data-desc="Degung adalah sekumpulan alat musik gamelan khas masyarakat Sunda. Awalnya, musik ini hanya dimainkan di kalangan menak (bangsawan) di pendopo kabupaten. Degung memiliki laras (tangga nada) yang khas yaitu Pelog dan Salendro, menciptakan suasana yang tenang dan mistis.">
+                    <i class="fas fa-microphone"></i>
+                    <div>
+                        <span>Degung</span>
+                        Jenis musik tradisional Sunda yang menggunakan instrumen gamelan dengan tangga nada pelog dan salendro yang khas.
+                    </div>
+                </li>
+
+                <li class="cultural-item" 
+                    data-title="Surabi Bandung" 
+                    data-icon="fa-cookie-bite"
+                    data-desc="Surabi adalah jajanan pasar tradisional yang terbuat dari tepung beras dan santan kelapa. Dimasak menggunakan tungku tanah liat kecil di atas bara api, memberikan aroma asap yang khas. Kini Surabi telah berevolusi dengan berbagai toping modern seperti keju, coklat, hingga durian.">
+                    <i class="fas fa-cookie-bite"></i>
+                    <div>
+                        <span>Surabi</span>
+                        Makanan tradisional yang populer di Bandung, terbuat dari tepung beras dan dimasak di atas tungku tanah liat.
+                    </div>
+                </li>
+
+                <li class="cultural-item" 
+                    data-title="Upacara Adat Seren Taun" 
+                    data-icon="fa-users"
+                    data-desc="Seren Taun adalah upacara adat panen padi masyarakat Sunda yang dilakukan setiap tahun. Upacara ini merupakan bentuk rasa syukur kepada Tuhan Yang Maha Esa atas segala hasil bumi yang diperoleh. Tradisi ini masih lestari di beberapa kampung adat di sekitar Bandung dan Jawa Barat.">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <span>Upacara Adat</span>
+                        Berbagai upacara adat Sunda seperti "Seren Taun" (syukuran panen) yang masih dilestarikan di sekitar Bandung.
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-info-circle"></i> Informasi Pelestarian Bandung</h2>
+        <div class="list-container" style="padding: 40px; text-align: center; border-left: 5px solid var(--color-primary-green);">
+            <p style="margin-bottom: 25px; font-size: 16px;">Untuk informasi detail, agenda pelestarian, atau pelaporan cagar budaya di
+                Kota Bandung, silakan hubungi:</p>
+
+            <a href="#" id="openDisbudparModalBtn" class="toggle-btn-leave"
+                style="background-color: var(--color-red-danger); margin-right: 15px; padding: 12px 25px; font-weight:600; display:inline-block;"><i class="fas fa-map-pin" style="margin-right:8px"></i>
+                Dinas Kebudayaan</a>
+
+            <a href="peta.html" class="toggle-btn-set" style="background-color: var(--color-primary-green); padding: 12px 25px; font-weight:600; display:inline-block;"><i
+                    class="fas fa-search" style="margin-right:8px"></i> Telusuri Peta</a>
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>WeBandoo+</h3>
+                    <p>Platform digital pelestarian cagar budaya dan warisan sejarah Kota Bandung. Menghubungkan
+                        generasi muda dengan akar budaya tanah Pasundan.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="home page.html">Dashboard Utama</a></li>
+                        <li><a href="warisan.html">Daftar Warisan</a></li>
+                        <li><a href="peta.html">Eksplorasi Peta</a></li>
+                        <li><a href="event.html">Agenda Budaya</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Hubungi Kami</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. Telekomunikasi No.1</a>
+                        </li>
+                        <li><a href="#"><i class="fas fa-phone"></i> (022) 123-4567</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@webandoo.id</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 WeBandoo+ Warisan Bandung. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. MODAL KONTAK DISBUDPAR ---
+        const openDisbudparButton = document.getElementById('openDisbudparModalBtn');
+        const closeDisbudparButton = document.getElementById('closeDisbudparModalBtn');
+        const disbudparOverlay = document.getElementById('disbudparOverlay');
+
+        openDisbudparButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            disbudparOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeDisbudparButton.addEventListener('click', function () {
+            disbudparOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // --- 2. MODAL DETAIL WARISAN (INTERAKTIF) ---
+        const heritageOverlay = document.getElementById('heritageDetailOverlay');
+        const closeHeritageBtn = document.getElementById('closeHeritageModalBtn');
+        const hIconDisplay = document.getElementById('hIconDisplay');
+        const hTitleDisplay = document.getElementById('hTitleDisplay');
+        const hDescDisplay = document.getElementById('hDescDisplay');
+
+        // Seleksi semua list item budaya
+        const culturalItems = document.querySelectorAll('.cultural-item');
+
+        culturalItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Ambil data dari atribut HTML
+                const title = this.getAttribute('data-title');
+                const iconClass = this.getAttribute('data-icon');
+                const desc = this.getAttribute('data-desc');
+
+                // Masukkan data ke dalam Modal
+                hTitleDisplay.innerText = title;
+                hDescDisplay.innerText = desc;
+                hIconDisplay.innerHTML = `<i class="fas ${iconClass}"></i>`;
+
+                // Tampilkan Modal
+                heritageOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeHeritageBtn.addEventListener('click', function() {
+            heritageOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Menutup semua modal jika klik di luar area
+        window.addEventListener('click', function (event) {
+            if (event.target === disbudparOverlay) {
+                disbudparOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+            if (event.target === heritageOverlay) {
+                heritageOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // --- 3. SCROLL ANIMATION ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

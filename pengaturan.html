@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pengaturan Umum WeBandoo - Warisan Bandung</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --color-primary-green: #4A8645;
+            --color-secondary-brown: #8B4513;
+            --color-white: #ffffff;
+            --color-off-white: #f0f2f5;
+            --color-text-dark: #2c3e50;
+            --color-text-grey: #7f8c8d;
+            --shadow-elevation: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--color-off-white);
+            color: var(--color-text-dark);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Navbar Styling --- */
+        .navbar {
+            width: 100%;
+            background-color: var(--color-text-dark);
+            color: var(--color-white);
+            padding: 20px 30px;
+            box-shadow: var(--shadow-elevation);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--color-primary-green);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: #bdc3c7;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .nav-link:hover {
+            background-color: #34495e;
+            color: var(--color-white);
+        }
+
+        .nav-link.active {
+            background-color: var(--color-primary-green);
+            color: var(--color-white);
+            box-shadow: 0 4px 10px rgba(74, 134, 69, 0.4);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-left: 15px;
+            border: 2px solid var(--color-primary-green);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .toggle-btn-leave,
+        .toggle-btn-set {
+            background-color: var(--color-primary-green);
+            color: var(--color-white);
+            box-shadow: 0 4px 10px rgba(74, 134, 69, 0.4);
+            font-size: 15px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            margin-left: 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .toggle-btn-leave.active-setting {
+            background-color: var(--color-secondary-brown);
+            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.4);
+        }
+
+        .toggle-btn-set i {
+            margin-right: 5px;
+        }
+
+
+        /* --- Main Content Styling --- */
+        .main-content {
+            flex-grow: 1;
+            margin-top: 80px;
+            padding: 40px;
+        }
+
+        /* --- Styling Pengaturan Umum (General Settings) --- */
+        .settings-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--color-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-elevation);
+        }
+
+        .settings-header {
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--color-off-white);
+            padding-bottom: 15px;
+        }
+
+        .settings-header h2 {
+            color: var(--color-text-dark);
+            font-weight: 600;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+        }
+
+        .settings-header i {
+            margin-right: 10px;
+            color: var(--color-primary-green);
+        }
+
+        .setting-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid var(--color-off-white);
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+
+        .setting-section h3 {
+            font-size: 20px;
+            color: var(--color-text-dark);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--color-secondary-brown);
+            padding-left: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--color-off-white);
+        }
+
+        .form-group:last-of-type {
+            border-bottom: none;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--color-text-dark);
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .form-group p {
+            color: var(--color-text-grey);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 10px;
+            border: 1px solid #dcdde1;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 200px;
+            background-color: var(--color-off-white);
+        }
+
+        /* Toggle Switch Styling (Diperkecil) */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--color-primary-green);
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px var(--color-primary-green);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        .save-button {
+            background-color: var(--color-primary-green);
+            color: var(--color-white);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(74, 134, 69, 0.3);
+        }
+
+        .save-button:hover {
+            background-color: #3f703a;
+            box-shadow: 0 6px 15px rgba(74, 134, 69, 0.4);
+        }
+
+        footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-white);
+            padding: 50px 40px 20px;
+            margin-top: 50px;
+            border-radius: 40px 40px 0 0;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+
+        }
+
+        .footer-col h3 {
+            color: var(--color-primary-green);
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .footer-col p {
+            color: #bdc3c7;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--color-primary-green);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--color-primary-green);
+            padding-left: 8px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: #34495e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--color-white);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--color-primary-green);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 10px 15px;
+                position: relative;
+                height: auto;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .nav-links li {
+                margin-left: 0;
+                margin-bottom: 5px;
+            }
+
+            .nav-link {
+                justify-content: center;
+            }
+
+            .navbar-right {
+                margin-top: 10px;
+                justify-content: space-around;
+                width: 100%;
+            }
+
+            .avatar {
+                margin-left: 0;
+            }
+
+            .main-content {
+                margin-top: 20px;
+                padding: 20px;
+            }
+
+            .settings-container {
+                padding: 20px 15px;
+                margin: 20px auto;
+            }
+
+            .settings-header h2 {
+                font-size: 24px;
+            }
+
+            .setting-section {
+                padding: 15px;
+            }
+
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+            }
+
+            .form-control,
+            .form-select,
+            .switch {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            footer {
+                padding: 40px 20px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="home page.html" class="logo">WeBandoo+</a>
+        <ul class="nav-links">
+            <li><a href="home page.html" class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="warisan.html" class="nav-link"><i class="fas fa-landmark"></i> Warisan & Cagar Budaya</a></li>
+            <li><a href="peta.html" class="nav-link"><i class="fas fa-map-pin"></i> Peta Lokasi</a></li>
+            <li><a href="event.html" class="nav-link"><i class="fas fa-calendar-day"></i> Event & Jadwal</a></li>
+            <li><a href="eduction.html" class="nav-link"><i class="fas fa-book"></i> Belajar</a></li>
+        </ul>
+        <div class="navbar-right">
+            <div class="avatar">
+                <a href="profil.html">
+                    <img src="Raihan.jpg" alt="Avatar">
+                </a>
+            </div>
+            <a href="pengaturan.html" class="toggle-btn-leave active-setting"><i class="fas fa-cog"></i></a>
+            <a href="keluar.html" class="toggle-btn-set"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="settings-container">
+            <div class="settings-header">
+                <h2><i class="fas fa-sliders-h"></i> Pengaturan Umum</h2>
+                <p style="color: var(--color-text-grey);">Kelola preferensi aplikasi, notifikasi, dan tampilan WeBandoo
+                    Anda.</p>
+            </div>
+
+            <form action="#" method="POST">
+                <div class="setting-section">
+                    <h3><i class="fas fa-paint-brush"></i> Tampilan Aplikasi</h3>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="theme">Mode Tampilan (Theme)</label>
+                            <p>Pilih mode terang atau gelap untuk aplikasi.</p>
+                        </div>
+                        <select id="theme" name="theme" class="form-select">
+                            <option value="light">Mode Terang (Default)</option>
+                            <option value="dark">Mode Gelap</option>
+                            <option value="system">Sesuai Sistem</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="language">Bahasa Aplikasi</label>
+                            <p>Pilih bahasa yang digunakan di seluruh aplikasi.</p>
+                        </div>
+                        <select id="language" name="language" class="form-select">
+                            <option value="id">Bahasa Indonesia</option>
+                            <option value="en">English (US)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="setting-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Preferensi Peta</h3>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="mapStyle">Gaya Peta (Map Style)</label>
+                            <p>Pilih gaya visual peta lokasi.</p>
+                        </div>
+                        <select id="mapStyle" name="mapStyle" class="form-select">
+                            <option value="default">Standar</option>
+                            <option value="satellite">Satelit</option>
+                            <option value="dark">Dark Mode</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="locationService">Aktifkan Layanan Lokasi</label>
+                        <label class="switch">
+                            <input type="checkbox" id="locationService" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="setting-section">
+                    <h3><i class="fas fa-bell"></i> Notifikasi</h3>
+
+                    <div class="form-group">
+                        <label for="eventAlerts">Peringatan Event Baru</label>
+                        <label class="switch">
+                            <input type="checkbox" id="eventAlerts" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promotionEmails">Email Promosi dan Berita</label>
+                        <label class="switch">
+                            <input type="checkbox" id="promotionEmails">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sound">Aktifkan Suara Notifikasi</label>
+                        <label class="switch">
+                            <input type="checkbox" id="sound" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="save-button">Simpan Semua Pengaturan</button>
+            </form>
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>WeBandoo+</h3>
+                    <p>Platform digital pelestarian cagar budaya dan warisan sejarah Kota Bandung. Menghubungkan
+                        generasi muda dengan akar budaya tanah Pasundan.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="home page.html">Dashboard Utama</a></li>
+                        <li><a href="warisan.html">Daftar Warisan</a></li>
+                        <li><a href="peta.html">Eksplorasi Peta</a></li>
+                        <li><a href="event.html">Agenda Budaya</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Hubungi Kami</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. Telekomunikasi No.1</a>
+                        </li>
+                        <li><a href="#"><i class="fas fa-phone"></i> (022) 123-4567</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@webandoo.id</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 WeBandoo+ Warisan Bandung. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

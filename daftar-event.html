@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulir Pendaftaran - WeBandoo+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        :root {
+            --color-primary: #4A8645;
+            --color-bg: #f8f9fa;
+            --color-text-dark: #2c3e50;
+            --color-white: #ffffff;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: var(--color-text-dark);
+            color: var(--color-white);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--color-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            color: var(--color-primary);
+            transform: translateX(-5px);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--color-text-dark);
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .event-highlight {
+            background: #dcfce7;
+            border-left: 5px solid var(--color-primary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .event-highlight i {
+            font-size: 24px;
+            color: var(--color-primary);
+        }
+
+        .event-highlight h3 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--color-primary);
+        }
+
+        .event-highlight span {
+            font-size: 12px;
+            color: #166534;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(74, 134, 69, 0.1);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background: var(--color-primary);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-confirm:hover {
+            background: #3a6b37;
+            transform: translateY(-2px);
+        }
+
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            backdrop-filter: blur(5px);
+        }
+
+        .success-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: #dcfce7;
+            color: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px auto;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="home page.html" class="logo">WeBandoo+</a>
+    </nav>
+
+    <div class="container">
+        <a href="event.html" class="btn-back"><i class="fas fa-arrow-left"></i> Batal & Kembali</a>
+
+        <div class="card">
+            <div class="header">
+                <h1>Konfirmasi Pendaftaran</h1>
+                <p>Silakan lengkapi data diri Anda untuk mendapatkan E-Ticket.</p>
+            </div>
+
+            <div class="event-highlight">
+                <i class="fas fa-ticket-alt"></i>
+                <div>
+                    <span>Anda mendaftar untuk:</span>
+                    <h3 id="targetEventName">Memuat nama event...</h3>
+                </div>
+            </div>
+
+            <form id="regForm">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" placeholder="Sesuai KTP" required>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Tiket dikirim kesini" required>
+                    </div>
+                    <div class="form-group">
+                        <label>No. WhatsApp</label>
+                        <input type="tel" placeholder="08xxxxxxxxxx" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Jumlah Tiket</label>
+                        <select>
+                            <option>1 Tiket</option>
+                            <option>2 Tiket</option>
+                            <option>3 Tiket</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Metode Pembayaran</label>
+                        <select>
+                            <option>Transfer Bank (BCA/Mandiri)</option>
+                            <option>E-Wallet (Gopay/OVO)</option>
+                            <option>QRIS</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-confirm">Bayar & Daftar Sekarang</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="success-overlay" id="successPopup">
+        <div class="success-box">
+            <div class="icon-circle"><i class="fas fa-check"></i></div>
+            <h2 style="color: #2c3e50; margin-bottom: 10px;">Berhasil!</h2>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 25px;">
+                Terima kasih telah mendaftar di <strong id="successEventName"></strong>.<br>
+                E-Ticket telah dikirim ke email Anda.
+            </p>
+            <button onclick="window.location.href='event.html'"
+                style="background: #2c3e50; color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight:600;">
+                Kembali ke Jadwal
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventName = urlParams.get('event');
+
+        const displayLabel = document.getElementById('targetEventName');
+        const successLabel = document.getElementById('successEventName');
+
+        if (eventName) {
+            displayLabel.innerText = eventName;
+            successLabel.innerText = eventName;
+        } else {
+            displayLabel.innerText = "Event Tidak Ditemukan";
+            displayLabel.style.color = "red";
+        }
+
+        const form = document.getElementById('regForm');
+        const popup = document.getElementById('successPopup');
+        const btn = document.querySelector('.btn-confirm');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const originalText = btn.innerText;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+            btn.style.opacity = '0.7';
+
+            setTimeout(() => {
+                popup.style.display = "flex";
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+            }, 1500);
+        });
+    </script>
+
+</body>
+
+</html>
